@@ -40,3 +40,17 @@ function populateTextarea() {
         console.log(savedMessage);
     }
 }
+
+// Домой
+// сделать так чтобы сохраняло не только сообщение но и имя, и все в одном обьекте
+
+// const formData = {};
+
+// refs.form.addEventListener('input', e => {
+//   // console.log(e.target.name);
+//   // console.log(e.target.value);
+
+//   formData[e.target.name] = e.target.value;
+
+//   console.log(formData);
+// });
