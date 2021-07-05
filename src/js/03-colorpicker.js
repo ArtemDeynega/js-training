@@ -4,6 +4,8 @@ import colors from './colors.json';
 import '../css/common.css';
 import '../css/colorpicker.css';
 
+console.log(colorCardsTpl(colors));
+
 const paletteContainer = document.querySelector('.js-palette');
 const cardsMarkup = createColorCardsMarkup(colors);
 
@@ -14,9 +16,9 @@ paletteContainer.addEventListener('click', onPaletteContainerClick);
 function createColorCardsMarkup(colors) {
     // return colors.map(color => colorCardTpl(color)).join('');
     // return colors.map(colorCardTpl).join('');
-    return colors.map(colorCardTpl).join('');
+    return colorCardsTpl(colors);
 }
-console.log(createColorCardsMarkup(colors));
+// console.log(createColorCardsMarkup(colors));
 
 function onPaletteContainerClick(evt) {
     const isColorSwatchEl =
