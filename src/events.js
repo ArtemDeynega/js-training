@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/js/brands';
 import '@fortawesome/fontawesome-free/js/fontawesome';
 import 'modern-normalize/modern-normalize.css';
 import { format } from 'date-fns';
-// // import { uk } from 'date-fns/locale';
+import { uk } from 'date-fns/locale';
 import upcomingEvents from './upcoming-events.json';
 import eventsTemplate from './templates/events.hbs';
 import './sass/modules/events/index.scss';
@@ -19,6 +19,7 @@ eventBoard.innerHTML = eventsTemplate(
             start: format(
                 Date.parse(evt.start),
                 'dd MMMM yyyy, HH:mm',
+                { locale: uk },
             ),
         };
     }),
