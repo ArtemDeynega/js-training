@@ -6,34 +6,39 @@ import '../css/common.css';
  * - Скрываем при клике
  * - Не забываем чистить таймер
  */
+const NOTIFICATION_DELAY = 5000;
 
-const NOTIFICATION_DELAY = 3000;
-let timeoutId = null;
+let timeoutIf = null;
+
 const refs = {
-  notification: document.querySelector('.js-alert'),
+    notification: document.querySelector('.js-alert'),
 };
 
-refs.notification.addEventListener('click', onNotificationClick);
-
-showNotification();
-
+refs.notification.addEventListener(
+    'click',
+    onNotificationClick,
+);
 /*
  * Функции
  */
+showNotification();
+
 function onNotificationClick() {
-  hideNotification();
-  clearTimeout(timeoutId);
+    heideNotification();
+    clearTimeout(timeoutIf);
 }
 
 function showNotification() {
-  refs.notification.classList.add('is-visible');
+    refs.notification.classList.add('is-visible');
 
-  timeoutId = setTimeout(() => {
-    console.log('Закрываем алерт автоматически чтобы не висел');
-    hideNotification();
-  }, NOTIFICATION_DELAY);
+    timeoutIf = setTimeout(() => {
+        console.log(
+            'Закрываем алерт автоматически что бы не висел',
+        );
+        heideNotification();
+    }, NOTIFICATION_DELAY);
 }
 
-function hideNotification() {
-  refs.notification.classList.remove('is-visible');
+function heideNotification() {
+    refs.notification.classList.remove('is-visible');
 }
