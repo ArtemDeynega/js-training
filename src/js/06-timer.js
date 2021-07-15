@@ -14,6 +14,13 @@ class Timer {
         this.intervalId = null;
         this.isActive = false;
         this.onTick = onTick;
+
+        this.init();
+    }
+    init() {
+        const time = this.getTimeComponents(0);
+
+        this.onTick(time);
     }
     start() {
         if (this.isActive) {
@@ -25,14 +32,46 @@ class Timer {
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
             const deltaTimer = currentTime - startTime;
-            const time = getTimeComponents(deltaTimer);
+            const time = this.getTimeComponents(deltaTimer);
 
             this.onTick(time);
         }, 1000);
     }
     stop() {
         clearInterval(this.intervalId);
+        const time = this.getTimeComponents(0);
         this.isActive = false;
+        this.onTick(time);
+    }
+    /*
+     * - Принимает время в миллисекундах
+     * - Высчитывает сколько в них вмещается часов/минут/секунд
+     * - Возвращает обьект со свойствами hours, mins, secs
+     * - Адская копипаста со стека 💩
+     */
+    getTimeComponents(time) {
+        const hours = this.pad(
+            Math.floor(
+                (time % (1000 * 60 * 60 * 24)) /
+                    (1000 * 60 * 60),
+            ),
+        );
+        const mins = this.pad(
+            Math.floor(
+                (time % (1000 * 60 * 60)) / (1000 * 60),
+            ),
+        );
+        const secs = this.pad(
+            Math.floor((time % (1000 * 60)) / 1000),
+        );
+
+        return { hours, mins, secs };
+    }
+    /*
+     * Принимает число, приводит к строке и добавляет в начало 0 если число меньше 2-х знаков
+     */
+    pad(value) {
+        return String(value).padStart(2, '0');
     }
 }
 
@@ -40,41 +79,14 @@ const timer = new Timer({
     onTick: updateClockface,
 });
 
-refs.startBtn.addEventListener('click', () => {
-    timer.start();
-});
-refs.stopBtn.addEventListener('click', () => {
-    timer.stop();
-});
-/*
- * - Принимает время в миллисекундах
- * - Высчитывает сколько в них вмещается часов/минут/секунд
- * - Возвращает обьект со свойствами hours, mins, secs
- * - Адская копипаста со стека 💩
- */
-function getTimeComponents(time) {
-    const hours = pad(
-        Math.floor(
-            (time % (1000 * 60 * 60 * 24)) /
-                (1000 * 60 * 60),
-        ),
-    );
-    const mins = pad(
-        Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)),
-    );
-    const secs = pad(
-        Math.floor((time % (1000 * 60)) / 1000),
-    );
-
-    return { hours, mins, secs };
-}
-
-/*
- * Принимает число, приводит к строке и добавляет в начало 0 если число меньше 2-х знаков
- */
-function pad(value) {
-    return String(value).padStart(2, '0');
-}
+refs.startBtn.addEventListener(
+    'click',
+    timer.start.bind(timer),
+);
+refs.stopBtn.addEventListener(
+    'click',
+    timer.stop.bind(timer),
+);
 
 // const timer = new Timer({
 //   onTick: updateClockface,
