@@ -5,31 +5,31 @@
  */
 
 // const makeOrder = dish => {
-//   const DELAY = 1000;
+//     const DELAY = 1000;
 
-//   return new Promise((resolve, reject) => {
-//     const passed = Math.random() > 0.5;
+//     return new Promise((resolve, reject) => {
+//         const passed = Math.random() > 0.3;
+//         setTimeout(() => {
+//             if (passed) {
+//                 resolve(`✅ Вот ваш заказ ${dish}`);
+//             }
 
-//     setTimeout(() => {
-//       if (passed) {
-//         resolve(`✅ Вот ваш заказ: ${dish}`);
-//       }
-
-//       reject('❌ Упс, у нас закончились продукты');
-//     }, DELAY);
-//   });
+//             reject('❌ Извените закончились продукты');
+//         }, DELAY);
+//     });
 // };
 
-// makeOrder('пирожок').then(onMakeOrderSuccess).catch(onMakeOrderError);
+// makeOrder('Пирожок')
+//     .then(onMakeOrderSeccess)
+//     .catch(onMakeOrderError);
 
-// function onMakeOrderSuccess(result) {
-//   console.log('onMakeOrderSuccess');
-//   console.log(result);
+// function onMakeOrderSeccess(result) {
+//     console.log('onMakeOrderSeccess');
+//     console.log(result);
 // }
-
 // function onMakeOrderError(error) {
-//   console.log('onMakeOrderError');
-//   console.log(error);
+//     console.log('onMakeOrderError');
+//     console.log(error);
 // }
 
 /*
@@ -39,19 +39,20 @@
  */
 
 // const makeOrder = dish => {
-//   return Promise.resolve(`✅ Вот ваш заказ: ${dish}`);
+//     return Promise.resolve(`✅ Вот ваш заказ ${dish}`);
 // };
 
-// makeOrder('пирожок').then(onMakeOrderSuccess);
-
+// makeOrder('пирожок')
+//     .then(onMakeOrderSuccess)
+//     .catch(onMakeOrderError);
 // function onMakeOrderSuccess(result) {
-//   console.log('onMakeOrderSuccess');
-//   console.log(result);
+//     console.log('onMakeOrderSuccess');
+//     console.log(result);
 // }
 
 // function onMakeOrderError(error) {
-//   console.log('onMakeOrderError');
-//   console.log(error);
+//     console.log('onMakeOrderError');
+//     console.log(error);
 // }
 
 /*
