@@ -7,8 +7,6 @@ const horses = [
     'Flying Fox',
     'Seabiscuit',
 ];
-
-let raceCounter = 0;
 const refs = {
     startBtn: document.querySelector('.js-start-race'),
     winnerField: document.querySelector('.js-winner'),
@@ -21,63 +19,86 @@ const refs = {
 refs.startBtn.addEventListener('click', onStart);
 
 function onStart() {
-    raceCounter += 1;
     const promises = horses.map(run);
-
     updateWinnerField('');
-    updateProgressField(
+
+    updateProgressDield(
         '🤖 Заезд начался, ставки не принимаются!',
     );
-    determineWinner(promises);
+    datermineWinner(promises);
+
     waitForAll(promises);
-}
-
-function determineWinner(horsesP) {
-    Promise.race(horsesP).then(({ horse, time }) => {
-        updateWinnerField(`🎉 Победил ${horse}, финишировав за ${time}
-    времени`);
-        updateResultsTable({ horse, time, raceCounter });
-    });
-}
-
-function waitForAll(horsesP) {
-    Promise.all(horsesP).then(() => {
-        updateProgressField(
-            '📝 Заезд окончен, принимаются ставки.',
-        );
-    });
 }
 
 function updateWinnerField(message) {
     refs.winnerField.textContent = message;
 }
 
-function updateProgressField(message) {
+function updateProgressDield(message) {
     refs.progressField.textContent = message;
 }
 
-function updateResultsTable({ horse, time, raceCounter }) {
-    const tr = `<tr><td>${raceCounter}</td><td>${horse}</td><td>${time}</td></tr>`;
+function updateResultTable({ horse, time }) {
+    const tr = `<tr><td>0</td><td>${horse}</td><td>${time}</td></tr>`;
+
     refs.tableBody.insertAdjacentHTML('beforeend', tr);
 }
 
-/*
- * Promise.race([]) для ожидания первого выполнившегося промиса
- */
+function datermineWinner(horsesP) {
+    Promise.race(horsesP).then(({ horse, time }) => {
+        updateWinnerField(
+            `🏆 Победил ${horse}, финишировав за ${time} времени`,
+        );
+        updateResultTable({ horse, time });
+    });
+}
+function waitForAll(horsesF) {
+    Promise.all(horsesF).then(() => {
+        updateProgressDield(
+            `🏁 Заезд окончен, принимаются ставки!`,
+        );
+    });
+}
 
-/*
- * Promise.all([]) для ожидания всех промисов
- */
+// console.log(
+//     `%c 🏆 Победил ${1}, финишировав за ${1} времени`,
+//     'color: green; font-size: 14px',
+// );
+
+// console.log(
+//     `%c 🏁 Заезд окончен, принимаются ставки!`,
+//     'color: yellow; font-size: 14px',
+// );
 
 function run(horse) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const time = getRandomTime(2000, 3500);
-
         setTimeout(() => {
             resolve({ horse, time });
         }, time);
     });
 }
+
+// run('Mango').then(x => console.log(x));
+
+/*
+ * Promise.race([]) для ожидания первого выполнившегося промиса
+ */
+// Promise.race(promises).then(({ horse, time }) => {
+//     console.log(
+//         `%c 🏆 Победил ${horse}, финишировав за ${time} времени`,
+//         'color: green; font-size: 14px',
+//     );
+// });
+/*
+ * Promise.all([]) для ожидания всех промисов
+ */
+// Promise.all(promises).then(() =>
+//     console.log(
+//         `%c 🏁 Заезд окончен, принимаются ставки!`,
+//         'color: yellow; font-size: 14px',
+//     ),
+// );
 
 function getRandomTime(min, max) {
     return Math.floor(
