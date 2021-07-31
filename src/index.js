@@ -12,9 +12,9 @@
  * http://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1
  */
 
-import articlesTpl from './templates/articles.hbs';
 import './css/common.css';
 import NewsApiService from './js/news-service';
+import articlesTpl from './templates/articles.hbs';
 import LoadMoreBtn from './js/components/load-more-btn';
 
 const refs = {
@@ -27,6 +27,7 @@ const loadMoreBtn = new LoadMoreBtn({
     selector: '[data-action="load-more"]',
     hidden: true,
 });
+
 const newsApiService = new NewsApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
@@ -35,23 +36,25 @@ loadMoreBtn.refs.button.addEventListener(
     fetchArticles,
 );
 
-function onSearch(e) {
-    e.preventDefault();
+function onSearch(evt) {
+    evt.preventDefault();
 
     newsApiService.query =
-        e.currentTarget.elements.query.value;
+        evt.currentTarget.elements.query.value;
 
     if (newsApiService.query === '') {
-        return alert('Введи что-то нормальное');
+        return alert('Введите ваш запрос');
     }
 
     loadMoreBtn.show();
+
     newsApiService.resetPage();
     clearArticlesContainer();
+
     fetchArticles();
 }
 
-function fetchArticles() {
+function fetchArticles(params) {
     loadMoreBtn.disable();
     newsApiService.fetchArticles().then(articles => {
         appendArticlesMarkup(articles);
@@ -66,6 +69,6 @@ function appendArticlesMarkup(articles) {
     );
 }
 
-function clearArticlesContainer() {
+function clearArticlesContainer(params) {
     refs.articlesContainer.innerHTML = '';
 }
