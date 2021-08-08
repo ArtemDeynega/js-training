@@ -1,74 +1,117 @@
-/*
- * - Пагинация
- *   - страница и кол-во на странице
- * - Загружаем статьи при сабмите формы
- * - Загружаем статьи при нажатии на кнопку «Загрузить еще»
- * - Обновляем страницу в параметрах запроса
- * - Рисуем статьи
- * - Сброс значения при поиске по новому критерию
- *
- * https://newsapi.org/
- * 4330ebfabc654a6992c2aa792f3173a3
- * http://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1
- */
-
 import './css/common.css';
-import NewsApiService from './js/news-service';
-import articlesTpl from './templates/articles.hbs';
-import LoadMoreBtn from './js/components/load-more-btn';
 
-const refs = {
-    searchForm: document.querySelector('.js-search-form'),
-    articlesContainer: document.querySelector(
-        '.js-articles-container',
-    ),
+//Создание (create, POST)
+
+// const postToAdd = {
+//     author: 'Mango',
+//     content: 'CRUD is awesome',
+// };
+
+// fetch('https://jsonplaceholder.typicode.com/posts', {
+//     method: 'POST',
+//     body: JSON.stringify(postToAdd),
+//     headers: {
+//         'Content-Type': 'application/json; charset=UTF-8',
+//     },
+// })
+//     .then(response => {
+//         console.log('Response: ', response);
+//         return response.json();
+//     })
+//     .then(post => console.log(post))
+//     .catch(error => console.log(error));
+
+// Чтение (read, GET)
+
+// const postId = 2;
+
+// fetch(
+//     `https://jsonplaceholder.typicode.com/posts/${postId}`,
+// )
+//     .then(response => response.json())
+//     .then(posts => console.log(posts))
+//     .catch(error => console.log(error));
+
+// Обновление (update, PUT и PATCH)
+
+// const postId = 10;
+// const postToUpdate = {
+//     content: 'CRUD is really awesome',
+// };
+
+// fetch(
+//     `https://jsonplaceholder.typicode.com/posts/${postId}`,
+//     {
+//         method: 'PATCH',
+//         body: JSON.stringify(postToUpdate),
+//         headers: {
+//             'Content-Type':
+//                 'application/json; charset=UTF-8',
+//         },
+//     },
+// )
+//     .then(response => {
+//         console.log('Response: ', response);
+//         return response.json();
+//     })
+//     .then(post => console.log(post))
+//     .catch(error => console.log(error));
+
+// Удаление (delete, DELETE)
+
+// const postIdToDelete = 1;
+
+// fetch(
+//     `https://jsonplaceholder.typicode.com/posts/${postIdToDelete}`,
+//     {
+//         method: 'DELETE',
+//     },
+// )
+//     .then(() => console.log('succes'))
+//     .catch(error => console.log('ERROR' + error));
+
+// Асинхронные функции
+
+// const getUsers = async () => {
+//     const response = await fetch(
+//         'https://jsonplaceholder.typicode.com/users',
+//     );
+//     const users = response.json();
+
+//     return users;
+// };
+
+// getUsers().then(users => console.log(users));
+
+/////////////////
+// const getUsers = async () => {
+//     try {
+//         const result = await fetch(
+//             'https://jsonplaceholder.typicode.com/users',
+//         );
+//         console.log(result);
+//     } catch (err) {
+//         throw err;
+//     }
+// };
+
+// getUsers()
+//     .then(users => console.log(users))
+//     .catch(error => console.log(error));
+
+// Теперь перепишем наш код, используя асинхронную функцию.
+
+const getUsersFriends = async () => {
+    const user = await fetch('/user-profile');
+    const idList = await fetch(`/users/${user.id}/friends`);
+    const promise = idList.map(id => fetch(`users/${id}`));
+    const friends = await Promise.all(promise);
+
+    return friends;
 };
-const loadMoreBtn = new LoadMoreBtn({
-    selector: '[data-action="load-more"]',
-    hidden: true,
-});
 
-const newsApiService = new NewsApiService();
+// Асинхронная функция всегда вернет промис
 
-refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener(
-    'click',
-    fetchArticles,
-);
+const promise = getUsersFriends();
 
-function onSearch(evt) {
-    evt.preventDefault();
-
-    newsApiService.query =
-        evt.currentTarget.elements.query.value;
-
-    if (newsApiService.query === '') {
-        return alert('Введите ваш запрос');
-    }
-
-    loadMoreBtn.show();
-
-    newsApiService.resetPage();
-    clearArticlesContainer();
-
-    fetchArticles();
-}
-
-function fetchArticles(params) {
-    loadMoreBtn.disable();
-    newsApiService.fetchArticles().then(articles => {
-        appendArticlesMarkup(articles);
-        loadMoreBtn.enable();
-    });
-}
-
-function appendArticlesMarkup(articles) {
-    refs.articlesContainer.insertAdjacentHTML(
-        'beforeend',
-        articlesTpl(articles),
-    );
-}
-
-function clearArticlesContainer(params) {
-    refs.articlesContainer.innerHTML = '';
-}
+promise.then(friends => console.log(friends));
