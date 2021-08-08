@@ -6,7 +6,8 @@
   "homepage": "https://artemdeynega.github.io/js-training/",
   "scripts": {
     "dev": "parcel src/*.html --port 3000",
-    "build": "parcel build src/*.html --public-url /js-training/"
+    "build": "parcel build src/*.html --public-url /js-training/",
+    "server": "json-server --watch db.json"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
     "url": "https://github.com/ArtemDeynega/js-training/issues"
   },
   "devDependencies": {
+    "json-server": "^0.16.3",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-plugin-nuke-dist": "^1.0.1",
