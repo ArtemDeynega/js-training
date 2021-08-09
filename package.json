@@ -5,7 +5,7 @@
   "main": "index.js",
   "homepage": "https://artemdeynega.github.io/js-training/",
   "scripts": {
-    "dev": "parcel src/*.html --port 3000",
+    "dev": "parcel src/*.html --port 4000",
     "build": "parcel build src/*.html --public-url /js-training/",
     "server": "json-server --watch db.json"
   },
