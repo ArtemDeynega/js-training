@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:4040';
+const BASE_URL = 'http://localhost:3000/';
+const CHAPTER_BOOKS = 'books/';
 
 function updateBookById(update, bookId) {
     const options = {
@@ -10,13 +11,19 @@ function updateBookById(update, bookId) {
     };
 
     return fetch(
-        `${BASE_URL}/books/${bookId}`,
+        `${BASE_URL}${CHAPTER_BOOKS}${bookId}`,
         options,
     ).then(res => res.json());
 }
 
-// updateBookById({ title: 'Большая новая книга по NODEJS' }, 19);
+updateBookById(
+    {
+        title: 'Большая тестовая книга по JS',
+        genres: ['Большие приключения по JS'],
+    },
+    9,
+).then(console.log);
+updateBookById({ rating: 2 }, 2).then(console.log);
+updateBookById({ author: 'Какой-то мужик', rating: 5 }, 1);
 
-// updateBookById({ rating: 1 }, 18);
-
-// updateBookById({ rating: 4, author: 'Манго' }, 17);
+// author

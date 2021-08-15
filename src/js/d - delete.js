@@ -1,13 +1,15 @@
-const BASE_URL = 'http://localhost:4040';
+const BASE_URL = 'http://localhost:3000/';
+const CHAPTER_BOOKS = 'books/';
 
-function removeBook(bookId) {
-    const url = `${BASE_URL}/books/${bookId}`;
+function deleteBook(bookId) {
     const options = {
         method: 'DELETE',
     };
-
-    return fetch(url, options).then(res => res.json());
+    return fetch(
+        `${BASE_URL}${CHAPTER_BOOKS}${bookId}`,
+        options,
+    ).then(res => res.json());
 }
 
-// removeBook(15);
-// removeBook(14);
+deleteBook(11);
+deleteBook(10);
