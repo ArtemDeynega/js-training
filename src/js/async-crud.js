@@ -1,6 +1,6 @@
 const BASE_URL = 'http://localhost:3000';
 
-async function addBook(book) {
+async function addBook({ params }) {
     const options = {
         method: 'POST',
         headers: {
@@ -13,33 +13,54 @@ async function addBook(book) {
         `${BASE_URL}/books`,
         options,
     );
+
     const newBook = await response.json();
 
     return newBook;
 }
 
-// async function addBookAndUpdateUI() {
-//   try {
-//     const book = await addBook({});
+// addBook({
+//     title: 'Тестовая книга по CSS',
+//     author: 'Я',
+//     genres: ['CSS'],
+//     rating: 9,
+// })
+//     .then(renderBook)
+//     .catch(console.log);
+
+// function renderBook(book) {
+//     console.log('Пришел ответ от бекенда можно рисовать');
 //     console.log(book);
-//   } catch (error) {
-//     console.log(error);
-//   }
 // }
 
-// addBookAndUpdateUI();
+// async function addBookAndUpdateUi() {
+//     try {
+//         const book = await addBook({});
+//         console.log(book);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 async function fetchBooks() {
     const response = await fetch(`${BASE_URL}/books`);
-    const books = await response.json();
-    return books;
+
+    const book = await response.json();
+
+    return book;
 }
+
+// fetchBooks();
+// fetchBookById(2);
+// fetchBookById(4);
 
 async function fetchBookById(bookId) {
     const response = await fetch(
         `${BASE_URL}/books/${bookId}`,
     );
+
     const book = await response.json();
+
     return book;
 }
 
@@ -50,8 +71,8 @@ async function removeBook(bookId) {
     };
 
     const response = await fetch(url, options);
-    const book = await response.json();
-    return book;
+
+    return response;
 }
 
 async function updateBookById(update, bookId) {
@@ -67,6 +88,6 @@ async function updateBookById(update, bookId) {
         `${BASE_URL}/books/${bookId}`,
         options,
     );
-    const book = await response.json();
-    return book;
+    const data = await response.json();
+    return data;
 }
