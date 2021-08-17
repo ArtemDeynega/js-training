@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "axios": "^0.21.1",
     "bootstrap.native": "^4.0.3",
     "date-fns": "^2.22.1",
     "lodash.throttle": "^4.1.1",
